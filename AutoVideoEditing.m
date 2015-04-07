@@ -84,8 +84,8 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^ { //this calls the following code
         
         NSTimeInterval currentSystemTime = [NSDate timeIntervalSinceReferenceDate];
-        
         double timePassed = currentSystemTime - lastSystemTime;
+        lastSystemTime = currentSystemTime;
         
         // Makes the lights flash
         [self updateLightsFlash:timePassed];
@@ -167,11 +167,19 @@
 {
     [super touchesEnded:touches withEvent:event];
     
-    if( [shapes count] == 2 )
+    if( currentPalleteState == DrawingStraight_Line )
     {
-        [self detectLineAngles];
-        currentPalleteState = Pallete_Nothing;
+        if( [shapes count] == 2 )
+        {
+            [self detectLineAngles];
+            currentPalleteState = Pallete_Nothing;
+        }
     }
+}
+
+-(void)loadShapes
+{
+    
 }
 
 
@@ -180,7 +188,7 @@
     if( [shapes count] == 2)
     {
         LineShape *line1 = (LineShape*)[shapes objectAtIndex:0];
-        LineShape *line2 = (LineShape*)[shapes objectAtIndex:0];
+        LineShape *line2 = (LineShape*)[shapes objectAtIndex:1];
         
         // Init the lines
         CGPoint leftLineStart = [line1 getStartPoint];
@@ -202,7 +210,7 @@
         leftLineStart.y =self.view.bounds.size.height - leftLineStart.y;
         leftLineEnd.y =self.view.bounds.size.height - leftLineEnd.y;
         rightLineStart.y = self.view.bounds.size.height - rightLineStart.y;
-        rightLineEnd.y= self.view.bounds.size.height -rightLineEnd.y;
+        rightLineEnd.y= self.view.bounds.size.height - rightLineEnd.y;
         
         // ensure start is the bottom line if not use a temp variable to swap them
         if (leftLineEnd.y < leftLineStart.y)
@@ -259,12 +267,14 @@ float angleBetweenLines(const CGPoint line1Start, const CGPoint line1End, const 
     const float a =line1End.x -line1Start.x;
     const float b =line1End.y -line1Start.y;
     const float c= line2End.x -line2Start.x;
-    const float d= line2End.y- line2End.y;
+    const float d= line2End.y- line2Start.y;
     
     //calculate angle in radians
     const float rads = acosf( ( ( a*c) + (b*d))/ (( sqrt( a*a + b*b)) * (sqrtf(c*c + d*d))));
     
     return ( ( 180.0f* rads) / M_PI);
+    
+//    const float rads = acosf( ( ( a*c ) + ( b*d ) ) / ( ( sqrtf( a*a + b*b ) ) * ( sqrtf( c*c + d*d ) ) ) );
     
 }
 
