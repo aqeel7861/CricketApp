@@ -162,6 +162,30 @@
     }
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if( currentPalleteState == DrawingStraight_Line)
+    {
+        NSArray *touchesArray = [touches allObjects];
+        if( [touchesArray count] > 0 )
+        {
+            UITouch *touch = [touchesArray objectAtIndex:0];
+            CGPoint position = [touch locationInView:self.view];
+            
+            if( [shapes count] == 1 )
+            {
+                position = [[shapes objectAtIndex:0] getEndPoint];
+            }
+            
+            LineShape *shape = [[LineShape alloc] init:position];
+            [self.view addSubview:shape];
+            [shapes addObject:shape];
+            selectedShape = shape;
+            return;
+        }
+    }
+}
+
 
 -(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
 {
