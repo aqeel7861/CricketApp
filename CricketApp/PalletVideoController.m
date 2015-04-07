@@ -183,7 +183,7 @@
     
     
     //added code
-    if( currentPalleteState == DrawingStraight_Line)
+    else if( currentPalleteState == DrawingStraight_Line)
     {
         NSArray *touchesArray = [touches allObjects];
         if( [touchesArray count] > 0 )
@@ -199,7 +199,7 @@
         }
     }
     
-    if( currentPalleteState == Drawing_Circle )
+    else if( currentPalleteState == Pallete_Nothing )
     {
         //previous code
         selectedShape = [self getClosestShape:touches];
@@ -226,7 +226,7 @@
         
     }
     
-    if (currentPalleteState == DrawingStraight_Line)
+    else if (currentPalleteState == DrawingStraight_Line)
     {
         NSArray *touchesArray = [touches allObjects];
         if( [touchesArray count] > 0 )
@@ -244,9 +244,7 @@
         
     }
     
-    
-    
-    if( currentPalleteState == Eraser_Pressed )
+    else if( currentPalleteState == Eraser_Pressed )
     {
         Shape *shape = [self getClosestShape:touches];
         if( shape != nil )
@@ -257,7 +255,7 @@
         return;
     }
     
-   if( selectedShape != nil )
+    else if( selectedShape != nil )
     {
         UIView *shape = selectedShape;
         NSArray *touchesArray = [touches allObjects];
@@ -269,9 +267,6 @@
             break;
         }
     }
-    
-   
-    
 }
 
 

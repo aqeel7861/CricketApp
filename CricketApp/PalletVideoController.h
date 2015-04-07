@@ -22,8 +22,6 @@
     enum PalleteState 
     {
         Pallete_Nothing,
-        Drawing_Circle,
-        Drawing_Square,
         Drawing_Line,
         DrawingStraight_Line,
         Eraser_Pressed
