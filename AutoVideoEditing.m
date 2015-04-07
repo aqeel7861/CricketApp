@@ -201,6 +201,24 @@
     }
 }
 
+
+-(void)straightlinePressed
+{
+    if( [shapes count] < 2 )
+    {
+        if( currentPalleteState != DrawingStraight_Line )
+        {
+            currentPalleteState = DrawingStraight_Line;
+            straightlinetool.alpha = 1.0f;
+        }
+        else
+        {
+            currentPalleteState = Pallete_Nothing;
+            straightlinetool.alpha = 0.5f;
+        }
+    }
+}
+
 -(void)loadShapes
 {
     
