@@ -72,16 +72,16 @@
     
 
     //making the images nice and clear using alpha function ios
-    saveTool.alpha=1.5;
-    clearTool.alpha=1.5;
-    circleTool.alpha=1.5;
-    squareTool.alpha=1.5;
-    linetool.alpha=1.5;
-    eraser.alpha=1.5;
-    line.alpha=1.5;
-    screenshot.alpha=1.5;
-    facebook.alpha=1.5;
-    twitter.alpha=1.5;
+    saveTool.alpha=1.0;
+    clearTool.alpha=1.0;
+    circleTool.alpha=1.0;
+    squareTool.alpha=1.0;
+    line.alpha=0.5;
+    linetool.alpha=0.5;
+    eraser.alpha=0.5;
+    screenshot.alpha=1.0;
+    facebook.alpha=1.0;
+    twitter.alpha=1.0;
  
     
     //adding a screenshot button
@@ -309,6 +309,8 @@
 
 -(void)drawCircleToolbarPressed
 {
+    currentPalleteState = Pallete_Nothing;
+    
     Shape *shape = [[Shape alloc] init:@"circle"];
     [self.view addSubview:shape];
     [shapes addObject:shape];
@@ -316,31 +318,41 @@
 }
 
 
-
-
 -(void)squareToolbarPressed
 {
+    currentPalleteState = Pallete_Nothing;
+    
     Shape *squareshape = [[Shape alloc] init:@"square"];
     [self.view addSubview:squareshape];
     [shapes addObject:squareshape];
 }
 
 
-
+-(void)straightlinePressed
+{
+    if( currentPalleteState != DrawingStraight_Line )
+    {
+        currentPalleteState = DrawingStraight_Line;
+        line.alpha = 1.0f;
+    }
+    else
+    {
+        currentPalleteState = Pallete_Nothing;
+        line.alpha = 0.5f;
+    }
+}
 
 -(void)linePressed
 {
     if( currentPalleteState != Drawing_Line )
     {
         currentPalleteState = Drawing_Line;
+        linetool.alpha = 1.0f;
     }
-}
-
--(void)straightlinePressed
-{
-    if( currentPalleteState != DrawingStraight_Line )
+    else
     {
-        currentPalleteState = DrawingStraight_Line;
+        currentPalleteState = Pallete_Nothing;
+        linetool.alpha = 0.5f;
     }
 }
 
@@ -351,8 +363,6 @@
     {
         eraser.alpha = 0.5f;
         currentPalleteState = Pallete_Nothing;
-        
-      
     }
     else
     {
