@@ -298,6 +298,10 @@
                     [tableData removeObject:str];
                     
                 }
+                else if( ![str hasPrefix:@"DRILL_"] )
+                {
+                    [tableData removeObject:str];
+                }
                 
             }
             
