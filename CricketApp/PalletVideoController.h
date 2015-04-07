@@ -40,10 +40,10 @@
     UIImageView *circleTool;
     UIImageView * squareTool;
     UIImageView *clearTool;
+    UIImageView * straightlinetool;
     UIImageView * linetool;
     UIImageView * eraser;
     UIImageView * straightline;
-    UIImageView * line;
     UIImageView *saveTool;
     UIImageView * tempDrawImage;
     UIView *view;

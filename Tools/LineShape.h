@@ -22,4 +22,7 @@
 
 -(void)save:(NSMutableData*)output;
 
+-(CGPoint)getStartPoint;
+-(CGPoint)getEndPoint;
+
 @end

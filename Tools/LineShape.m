@@ -50,6 +50,23 @@
     }
     [self addPoint:endPoint];
 }
+-(CGPoint)getStartPoint
+{
+    if( [points count] > 0 )
+    {
+        return [[points objectAtIndex:0] CGPointValue];
+    }
+    return CGPointMake( 0.0f, 0.0f );
+}
+-(CGPoint)getEndPoint
+{
+    const int count = [points count];
+    if( count > 0 )
+    {
+        return [[points objectAtIndex:count-1] CGPointValue];
+    }
+    return CGPointMake( 0.0f, 0.0f );
+}
 
 - (void)drawRect:(CGRect)rect {
     

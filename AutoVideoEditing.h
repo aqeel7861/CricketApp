@@ -9,64 +9,23 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h> //import the media player into the new view controller2 class
 #import "InternetController.h"
+#import "PalletVideoController.h"
 
 
 
-@interface AutoVideoEditing : UIViewController
+@interface AutoVideoEditing : PalletVideoController
 
 {
-    InternetController *internetController;
-    
-    MPMoviePlayerController * mpc;
-    
-    enum PalleteState
-    {
-        Pallete_Nothing,
-        Drawing_Circle,
-        Drawing_Square,
-        Drawing_Line,
-        DrawingStraight_Line,
-        Eraser_Pressed
-    };
-    
-    enum PalleteState currentPalleteState;
-    
-    
-    //background for pallet
-    
-    
-    UIImageView *facebook;
-    UIImageView *screenshot;
-    UIImageView *twitter;
-    
-    UIImageView *circleTool;
-    UIImageView * squareTool;
-    UIImageView * linetool;
-    UIImageView * eraser;
-    UIImageView * straightline;
-    UIImageView * line;
-    UIImageView * tempDrawImage;
-    UIView *view;
-    
     
     UIImageView * redlight;
     UIImageView * amberlight;
     UIImageView * greenlight;
     
-    UIImageView *redLightFlashing;
-    double redLightTimer;
+    bool redLightFlashing, amberLightFlashing, greenLightFlashing;
+    double redLightTimer, amberLightTimer, greenLightTimer;
     double lastSystemTime;
-    
-    
-    UITextField* comments;
-    
-    
-    UIView *selectedShape;
-    NSMutableArray *shapes;
-    
-    NSString *videoFilename;
 }
-@property (strong, nonatomic) MPMoviePlayerController *videoController;
+//@property (strong, nonatomic) MPMoviePlayerController *videoController;
 
 
 

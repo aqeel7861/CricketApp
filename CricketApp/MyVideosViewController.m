@@ -8,6 +8,7 @@
 #import "MyVideosViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PalletVideoController.h"
+#import "AutoVideoEditing.h"
 #import "InternetController.h"
 
 
@@ -49,13 +50,13 @@
     
      UIButton * EV1 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
      EV1.frame=CGRectMake(60, 260, 200, 50);//positioning of the button
-     [EV1 addTarget:self action:@selector(getVideo:)forControlEvents:UIControlEventTouchUpInside];
+     [EV1 addTarget:self action:@selector(selectPalletVideo:)forControlEvents:UIControlEventTouchUpInside];
      [EV1 setBackgroundImage:[UIImage imageNamed:@"EV1.png"] forState:UIControlStateNormal];
      [self.view addSubview:EV1];
     
     UIButton * EV2 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     EV2.frame=CGRectMake(60, 320, 200, 50);//positioning of the button
-    [EV2 addTarget:self action:@selector(autovideo:)forControlEvents:UIControlEventTouchUpInside];
+    [EV2 addTarget:self action:@selector(selectAIVideo:)forControlEvents:UIControlEventTouchUpInside];
     [EV2 setBackgroundImage:[UIImage imageNamed:@"EV2.png"] forState:UIControlStateNormal];
     [self.view addSubview:EV2];
     
@@ -68,7 +69,7 @@
     [self.view addSubview:Back];
     
     
-   
+    videoLoadingState = VideoLoading_Nothing;
 }
 
 
@@ -237,7 +238,7 @@
     {
         const int index = indexPath.row;
         NSString *filename = [tableDataMyVideos objectAtIndex:index];
-        [self playVideo:filename];
+        [self selectVideo:filename];
         
         [table removeFromSuperview];
         table = nil;
@@ -315,8 +316,15 @@
 //play videos
 
 
-- (IBAction)getVideo:(UIButton *)sender {
+- (IBAction)selectPalletVideo:(UIButton *)sender {
     
+    videoLoadingState = VideoLoading_Pallete;
+    [self startSelectionOfVideoFromList];
+}
+
+
+-(void)startSelectionOfVideoFromList
+{
     [internetController getVideosList:^(NSMutableData *data, NSString *filename){
         if( data != nil )
         {
@@ -325,44 +333,19 @@
             [self displayDataInTableView:stringData];
         }
     }];
-    
-    
-    
-
-    
 }
 
 
 
 
-- (IBAction)autovideo:(UIButton *)sender {
+- (IBAction)selectAIVideo:(UIButton *)sender {
     
-    [internetController getVideosList:^(NSMutableData *data, NSString *filename){
-        if( data != nil )
-        {
-            NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
-            [self displayDataInTableView:stringData];
-            
-            }
-        
-        
-        UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; //this is the main storyboard the first storyboard that loads
-        
-        UIViewController * AutoVideoEditing= [MasterStoryboard instantiateViewControllerWithIdentifier:@"AutoVideoEditing"];
-        
-        [self presentViewController:AutoVideoEditing animated:YES completion:nil];
-        
-        [self playVideo:filename];
-    }];
-    
-
-
-    
+    videoLoadingState = VideoLoading_AI;
+    [self startSelectionOfVideoFromList];
 }
 
 
--(void)playVideo:(NSString*)filename
+-(void)selectVideo:(NSString*)filename
 {
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fullPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,filename];
@@ -416,37 +399,26 @@
 
 -(void)PlayDownloadedVideo:(NSString*)filename
 {
-    UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    PalletVideoController *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"PalletVideo"];
-    
-    //[[self view]addSubview:storyboard.view];
-    //THIS IS WHERE THE ERROR OCCURS
-    [self presentViewController:storyboard animated:YES completion:NULL];
-    
-    [storyboard playVideo:filename];
- 
-    
-   
-
-//    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *fullPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,filename];
-
-//    NSURL * url = [NSURL fileURLWithPath:fullPath];
-
-//    MPMoviePlayerViewController *mpc = [[MPMoviePlayerViewController alloc]initWithContentURL:url];
-//    
-//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-//    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.width;
-//    [mpc.view setFrame:CGRectMake(10,10,screenWidth-20,screenHeight-100)];
-//
-//    mpc.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
-//
-//    [[self view]addSubview:mpc.view];
-//
-//    [mpc.moviePlayer play];
-//    
-   // [self presentViewController:storyboard animated:NO completion:NULL]
+    if( videoLoadingState == VideoLoading_Pallete )
+    {
+        UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        PalletVideoController *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"PalletVideo"];
+        
+        [self presentViewController:storyboard animated:YES completion:NULL];
+        
+        [storyboard playVideo:filename];
+    }
+    else if( videoLoadingState == VideoLoading_AI )
+    {
+        UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        AutoVideoEditing *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"AutoVideoEditing"];
+        
+        [self presentViewController:storyboard animated:YES completion:NULL];
+        
+        [storyboard playVideo:filename];
+    }
 }
 
 

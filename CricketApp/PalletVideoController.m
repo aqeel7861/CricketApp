@@ -45,10 +45,7 @@
     
     
     //add box to place objects on pallet
-    UIImageView *palletbox = [[UIImageView alloc] initWithFrame:CGRectMake(40, 295, 240, 140)];
-    palletbox.backgroundColor = [UIColor greenColor];
-    palletbox.alpha=1.0;
-    [self.view addSubview:palletbox];
+    [self makePalleteBox];
     
     currentPalleteState = Pallete_Nothing;
     
@@ -57,7 +54,7 @@
     
     circleTool = [self createTool:@"circle.gif" x:50.0f y:305.0f action:@selector(drawCircleToolbarPressed)];
     squareTool = [self createTool:@"square.gif" x:110.0f y:305.0f action:@selector(squareToolbarPressed)];
-    line = [self createTool:@"line.png" x:170.0f y:305.0f action:@selector(straightlinePressed)];
+    straightlinetool = [self createTool:@"line.png" x:170.0f y:305.0f action:@selector(straightlinePressed)];
     linetool = [self createTool:@"linetool.png" x:220.0f y:305.0f action:@selector(linePressed)];
     
     
@@ -76,7 +73,7 @@
     clearTool.alpha=1.0;
     circleTool.alpha=1.0;
     squareTool.alpha=1.0;
-    line.alpha=0.5;
+    straightlinetool.alpha=0.5;
     linetool.alpha=0.5;
     eraser.alpha=0.5;
     screenshot.alpha=1.0;
@@ -94,7 +91,15 @@
    [self.view addGestureRecognizer:recognizer];
     
     shapes = [[NSMutableArray alloc] init];
-    
+}
+
+
+-(void)makePalleteBox
+{
+    UIImageView *palletbox = [[UIImageView alloc] initWithFrame:CGRectMake(40, 295, 240, 140)];
+    palletbox.backgroundColor = [UIColor greenColor];
+    palletbox.alpha=1.0;
+    [self.view addSubview:palletbox];
 }
 
 
@@ -114,10 +119,7 @@
 
 
 -(IBAction)BackButton:(id)sender;
-
 {
-    
-    
     UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];//declares the main storyboard
     
     UIViewController * MainStoryboard= [MasterStoryboard instantiateViewControllerWithIdentifier:@"Main"]; //load main storyboard
@@ -333,12 +335,12 @@
     if( currentPalleteState != DrawingStraight_Line )
     {
         currentPalleteState = DrawingStraight_Line;
-        line.alpha = 1.0f;
+        straightlinetool.alpha = 1.0f;
     }
     else
     {
         currentPalleteState = Pallete_Nothing;
-        line.alpha = 0.5f;
+        straightlinetool.alpha = 0.5f;
     }
 }
 

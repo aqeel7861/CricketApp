@@ -30,23 +30,27 @@
     //for grouped table
     InternetController * internetControllerMyvideos;
     
-    
+    enum VideoLoadingState
+    {
+        VideoLoading_Nothing,
+        VideoLoading_Pallete,
+        VideoLoading_AI
+    };
+    enum VideoLoadingState videoLoadingState;
 }
 
 
 
 @property (strong, nonatomic) NSURL *videoURL;
-@property (strong, nonatomic) MPMoviePlayerController *videoController;
-@property (nonatomic, strong) PalletVideoController *storyboard;
 
 
 
 -(IBAction)captureVideo:(id)sender;
 -(IBAction)BackButton:(id)sender;
 -(IBAction)PlayVideo:(id)sender;
--(void)playVideo:(NSString*)filename;
+-(void)selectVideo:(NSString*)filename;
 
 -(IBAction)GetVideos:(id)sender;//used to output the videos in the folder
--(IBAction)autovideo:(id)sender;//used to output the videos in the folder
+-(IBAction)selectAIVideo:(id)sender;//used to output the videos in the folder
 
 @end
