@@ -4,11 +4,11 @@
 //
 //  Created by Aqeel Rafiq on 21/01/2015.
 //  Copyright (c) 2015 Aqeel Rafiq. All rights reserved.
-//
+// Internet controller CLASS MAIN CLASS
 
 #import "InternetController.h"
 
-NSString *SERVER_URL = @"http://192.168.1.136"; //internet ip address
+NSString *SERVER_URL = @"http://161.23.54.162"; //IP ADDRESS NEEDS TO BE THE SAME ON MACHINE AND PHONE THIS IS IMPORTANT OTHERWISE XAMMP WONT NOTICE THIS
 
 @implementation InternetController
 
@@ -25,6 +25,8 @@ void(^getServerResponseForUrlCallback)(NSMutableData *data, NSString *filename);
     return self;
 }
 
+
+//four methods used here for debugging purposes if an error is hit output message is displayed in the log
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSLog( @"I have hit the server" ); //outputs message when connection has been made
@@ -56,7 +58,7 @@ void(^getServerResponseForUrlCallback)(NSMutableData *data, NSString *filename);
 }
 
 
-// Error
+// this method is used to display an error if an error is hit. it tells me the exact error and why it happened.
 -(void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error
 {
     if( getServerResponseForUrlCallback != nil )
@@ -77,6 +79,7 @@ void(^getServerResponseForUrlCallback)(NSMutableData *data, NSString *filename);
 }
 
 
+//callback fucntions used so saves me having to copy the WHOLE METHOD just refrence getVideosList in class requrired
 -(void)getVideosList:(ASCompletionBlock)callback;
 {
     getServerResponseForUrlCallback = callback;
@@ -95,13 +98,14 @@ void(^getServerResponseForUrlCallback)(NSMutableData *data, NSString *filename);
 }
 
 
+//again a CALLBACK FUNCTION USED saves me having to copy the whole method
 -(void)downloadVideoFromServer:(NSString*)filename withCallback:(ASCompletionBlock)callback;
 {
     getServerResponseForUrlCallback = callback;
     currentDownloadFilename = filename;
     
     NSString *url = [NSString stringWithFormat:@"%@/get.php?video=%@",SERVER_URL, filename];
-    NSLog( @"%@", url );
+    NSLog( @"%@", url ); //make sure getscript is saved in HTDOCS folder and file server is turned on
     
     // TESTING
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -114,13 +118,15 @@ void(^getServerResponseForUrlCallback)(NSMutableData *data, NSString *filename);
     connection = connection;
 }
 
+//this is to upload a video (PSOT METHOD USED).
+
 -(void)uploadVideo:(NSString*)filename fileData:(NSData*)fileData withCallback:(ASCompletionBlock)callback
 {
     getServerResponseForUrlCallback = callback;
     currentDownloadFilename = filename;
     
     //creating the request
-    NSString *url = [NSString stringWithFormat:@"%@/upload.php",SERVER_URL];
+    NSString *url = [NSString stringWithFormat:@"%@/upload.php",SERVER_URL]; //make sure file is saved in HTDOCS folder and server is turned on.
     
     NSMutableURLRequest *postRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [postRequest setHTTPMethod:@"POST"];

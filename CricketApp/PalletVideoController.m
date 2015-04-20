@@ -27,7 +27,7 @@
     
     [super viewDidLoad];
     
-    
+    //internet instance made
     
     self->internetController = [[InternetController alloc] init];
     
@@ -36,8 +36,10 @@
     background.frame = self.view.bounds;
     [[self view] addSubview:background];
     
+    //used for the back button
+    
     UIButton * Back =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
-    Back.frame=CGRectMake(230, 500, 60, 40);//positioning of the button
+    Back.frame=CGRectMake(230, 515, 60, 40);//positioning of the button
     [Back addTarget:self action:@selector(BackButton:)forControlEvents:UIControlEventTouchUpInside];
     [Back setBackgroundImage:[UIImage imageNamed:@"back button.png"] forState:UIControlStateNormal];
     [self.view addSubview:Back];
@@ -50,7 +52,7 @@
     currentPalleteState = Pallete_Nothing;
     
     
-    //postioning of the pallet
+    //postioning of the pallet this wouldnt have been possible if i used the object libary coordinates key to apps success
     
     circleTool = [self createTool:@"circle.gif" x:50.0f y:305.0f action:@selector(drawCircleToolbarPressed)];
     squareTool = [self createTool:@"square.gif" x:110.0f y:305.0f action:@selector(squareToolbarPressed)];
@@ -84,6 +86,7 @@
     //adding a screenshot button
     
     
+    //this is needed so the phone "Pinch Gesture" and responds to it for the moment of shapes
     
     [self.view setUserInteractionEnabled:true];
     UIPinchGestureRecognizer *recognizer = [[UIPinchGestureRecognizer alloc]
@@ -93,6 +96,7 @@
     shapes = [[NSMutableArray alloc] init];
 }
 
+//PALLET BOX green colour created for shapes
 
 -(void)makePalleteBox
 {
@@ -102,7 +106,7 @@
     [self.view addSubview:palletbox];
 }
 
-
+//responds to Pinch Gesture
 
 -(void)respondToPinchGesture:(UIPinchGestureRecognizer *)sender {
     
@@ -118,6 +122,8 @@
 }
 
 
+//Back button
+
 -(IBAction)BackButton:(id)sender;
 {
     UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];//declares the main storyboard
@@ -128,7 +134,7 @@
     
 }
 
-
+//gets the closet shape
 
 
 -(Shape*)getClosestShape:(NSSet*)touches
@@ -143,7 +149,7 @@
         {
             Shape *itr = [shapes objectAtIndex:j];
             
-            float fatFingers = 10.0f;
+            float fatFingers = 10.0f; //within a 10.0f distance this is for people with Fat or big fingers
             
             float hWidth = itr.frame.size.width*0.5f;
             float hHeight = itr.frame.size.height*0.5f;
@@ -165,6 +171,10 @@
 }
 
 
+//the Notation interface is divided into three classes they are:
+
+//touches began used to get start place of obejct
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if( currentPalleteState == Drawing_Line )
@@ -175,7 +185,7 @@
             UITouch *touch = [touchesArray objectAtIndex:0];
             CGPoint position = [touch locationInView:self.view];
             
-            LineShape *shape = [[LineShape alloc] init:position];
+            LineShape *shape = [[LineShape alloc] init:position]; //adds lineshape from the Lineshape.h class which is controller see wrtie up explaination
             [self.view addSubview:shape];
             [shapes addObject:shape];
             selectedShape = shape;
@@ -208,7 +218,7 @@
     }
 }
 
-
+//if the user moves a shape
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -222,7 +232,7 @@
             CGPoint position = [touch locationInView:self.view];
             
             // SWITCH BETWEEN STRAIGHT AND SQUIGGLY
-            [shape addPoint:position];
+            [shape addPoint:position]; //SQUIGLLY LINE U KEEP ADDNG A POINT
             return;
         }
         
@@ -240,11 +250,13 @@
             
             // SWITCH BETWEEN STRAIGHT AND SQUIGGLY
             //[shape addPoint:position];
-            [shape setEndPoint:position];
+            [shape setEndPoint:position]; //STRAIGHTLINE THERE IS ONLY x,y
             return;
         }
         
     }
+    
+    
     
     else if( currentPalleteState == Eraser_Pressed )
     {
@@ -252,7 +264,7 @@
         if( shape != nil )
         {
             [shapes removeObject:shape];
-            [shape remove];
+            [shape remove]; //remove shape from the shapes class remove() object
         }
         return;
     }
@@ -271,7 +283,7 @@
     }
 }
 
-
+//used to indicate that the touches have eneded
 
 -(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
 {
@@ -290,7 +302,7 @@
 
 
 
-// Creates a all shape buttons
+// Creates  all shape buttons create tool refered to at the top of this callss
 
 -(UIImageView*)createTool:(NSString*)icon x:(float)x y:(float)y action:(SEL)action
 {
@@ -313,7 +325,7 @@
 {
     currentPalleteState = Pallete_Nothing;
     
-    Shape *shape = [[Shape alloc] init:@"circle"];
+    Shape *shape = [[Shape alloc] init:@"circle"]; //id referes to circle whcich creates the circle shape from the Shape.h class
     [self.view addSubview:shape];
     [shapes addObject:shape];
     
@@ -324,12 +336,14 @@
 {
     currentPalleteState = Pallete_Nothing;
     
-    Shape *squareshape = [[Shape alloc] init:@"square"];
+    Shape *squareshape = [[Shape alloc] init:@"square"];//id referes to square whcich creates the circle shape from the Shape.h class
     [self.view addSubview:squareshape];
     [shapes addObject:squareshape];
 }
 
+//used to tell the user the shape being used. Alpha set to 1.0 to tell user they are using the current shape
 
+//else Alpah is set to 0.5 to tell the user they arent using the current shape
 -(void)straightlinePressed
 {
     if( currentPalleteState != DrawingStraight_Line )
@@ -387,6 +401,8 @@
 }
 
 
+//save the shapes for the svae button so when the shapes are relaoded again
+
 -(void)saveShapes
 {
     if( videoFilename != nil )
@@ -399,6 +415,7 @@
             [shape save:output];
         }
         
+        //saves the shapes to docnments directuiy
         NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *fullPath = [NSString stringWithFormat:@"%@/%@.shapes", documentsDirectory,videoFilename];
         bool success = false;
@@ -417,6 +434,7 @@
     }
 }
 
+//CALL BACK FUNCTION downloadvideodfromserver used here
 
 -(void)playVideo:(NSString*)filename
 {
@@ -450,7 +468,7 @@
     
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.width;
-    [mpc.view setFrame:CGRectMake(10,30,screenWidth-20,screenHeight-100)];
+    [mpc.view setFrame:CGRectMake(10,30,screenWidth-20,screenHeight-100)];//mpc fromat is set
     mpc.controlStyle = MPMovieControlStyleEmbedded;
     
     if( !mpcExists )
@@ -465,6 +483,7 @@
     [self loadShapes];
 }
 
+//used to load the shapes if shapes were previously shaped
 
 -(void)loadShapes
 {
@@ -548,6 +567,7 @@
 }
 
 
+//formating purposes the video finished playback
 
 - (void)videoPlayBackDidFinish:(NSNotification *)notification {
     
@@ -569,7 +589,7 @@
 
 //capture a screenshot and save to camera roll or upload to twitter or facebook
 
-
+//screenshot button used
 -(IBAction)SnapShotclicked:(id)sender       //SnapShotclicked is an action for UIButton.
 {
     
@@ -599,7 +619,7 @@
 
 
 
-//tweeting from my app
+//tweeting from my app taken from tutorial but notice code adapted! (  http://www.raywenderlich.com/21558/beginning-twitter-tutorial-updated-for-ios-6.  )
 
 - (IBAction)PosttoTwitter:(id)sender {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
@@ -647,7 +667,7 @@
 }
 
 
-//posting to facebook from my app
+//posting to facebook from my app taken from tutorial but notice code adapted! (  http://www.raywenderlich.com/21558/beginning-twitter-tutorial-updated-for-ios-6.  )
 
 
 - (IBAction)postToFacebook:(id)sender {
@@ -656,6 +676,28 @@
         
         [controller setInitialText:@"First post from my iPhone app"];
         [self presentViewController:controller animated:YES completion:Nil];
+        
+        
+        
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        UIGraphicsBeginImageContext(screenRect.size);
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        [[UIColor blackColor] set];
+        CGContextFillRect(ctx, screenRect);
+        
+        // grab reference to our window
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        
+        // transfer content into our context
+        [window.layer renderInContext:ctx];
+        UIImage *screengrab = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        
+        UIImageWriteToSavedPhotosAlbum(screengrab, nil, nil, nil);
+        [controller addImage:screengrab];
+
+
     }
 }
 

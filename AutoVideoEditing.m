@@ -90,11 +90,12 @@
         // Makes the lights flash
         [self updateLightsFlash:timePassed];
         
-        
+//sets the update loop method running which is used for the code
         [self updateLoop];
     }];
 }
 
+//used to make lights flash using double time interval
 
 -(void)updateLightsFlash:(double)timePassed
 {
@@ -107,7 +108,7 @@
         {
             redLightTimer-=timeIntervalFlash;
         
-            if (redlight.alpha==1.0)
+            if (redlight.alpha==1.0) //alhpha tool goes from 1.0 0.0 to make light flash the AI
             {
                 redlight.alpha =0.0;
             }
@@ -118,6 +119,8 @@
             }
         }
     }
+    
+    //same for amber
     
     else if (amberLightFlashing)
     {
@@ -139,6 +142,8 @@
             }
         }
     }
+    
+    //same for green
     
     else if  (greenLightFlashing)
     {
@@ -162,6 +167,7 @@
     }
 }
 
+//touches began is a little different there can only be two lines drawn in order to output the angle
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if( currentPalleteState == DrawingStraight_Line)
@@ -186,6 +192,7 @@
     }
 }
 
+//tounchs ended when line =2
 
 -(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
 {
@@ -270,27 +277,58 @@
         }
         
         
+        //angle betweenlines used to calcualte the angle refer to final write up
         const float angle = angleBetweenLines( leftLineStart, leftLineEnd, rightLineStart, rightLineEnd);
+        
+        
+        
+     
+//angle here is 20.0 degrees flashes green and tells user they have mastered the drill
+        
         NSLog(@"THE ANGLE OF THE LINES IS %f", angle);
         
         if( angle < 20.0f )
+            
         {
-            greenLightFlashing = true;
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Work on the other drills and try to perfect them, the angle is:" message:[NSString stringWithFormat:@"%f",angle] delegate:self cancelButtonTitle:@"Cancel"  otherButtonTitles:nil, nil];
+            [alertView show];
+            
+            
+            
+            
+                        greenLightFlashing = true;
         }
+        
+        
+        //angle here is 30-40.0 degrees flashes amber and tells user to keep working on Knee drive drill
+
         else if( angle < 30.0f )
         {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Work on the knee drive still and try to perfect it, the angle is:" message:[NSString stringWithFormat:@"%f",angle] delegate:self cancelButtonTitle:@"Cancel"  otherButtonTitles:nil, nil];
+            [alertView show];
+            
             amberLightFlashing = true;
         }
+        
+        
+        //angle here is 20 degrees flashes amber and tells user to keep working on Knee drive drill
         else
         {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Work on the knee drive still and try to perfect it, the angle is:" message:[NSString stringWithFormat:@"%f",angle] delegate:self cancelButtonTitle:@"Cancel"  otherButtonTitles:nil, nil];
+            [alertView show];
+            
             redLightFlashing = true;
         }
     }
 }
 
 
+//WHEN THE ERASER IS PRESSED LIGHTS STOP FLASHING THIS IS ADDED IN THE TUTORLA
 -(void)eraserPressed
 {
+    currentPalleteState = Pallete_Nothing;
+
     redlight.alpha = 1.0f;
     amberlight.alpha = 1.0f;
     greenlight.alpha = 1.0f;

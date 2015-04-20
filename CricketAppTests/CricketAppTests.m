@@ -42,18 +42,18 @@ float angleBetweenLines(const CGPoint line1Start, const CGPoint line1End, const 
     
     //    const float rads = acosf( ( ( a*c ) + ( b*d ) ) / ( ( sqrtf( a*a + b*b ) ) * ( sqrtf( c*c + d*d ) ) ) );
 }
-- (void)testAngles
+- (void)testAngles //test the angles in the app
 {
     CGPoint l1s = CGPointMake(0.0f, 0.0f);
     CGPoint l1e = CGPointMake(0.0f, 1.0f);
     CGPoint l2s = CGPointMake(0.0f, 0.0f);
-    CGPoint l2e = CGPointMake(1.0f, 1.0f);
+    CGPoint l2e = CGPointMake(1.0f, 0.0f);
     
     const float angle = angleBetweenLines(l1s, l1e, l2s, l2e);
     
     if( angle > 89.0f && angle < 91.0f )
     {
-        XCTAssert(YES, @"Pass");
+        XCTAssert(YES, @"Pass %f ",angle);
     }
     else
     {
@@ -61,7 +61,7 @@ float angleBetweenLines(const CGPoint line1Start, const CGPoint line1End, const 
     }
 }
 
-- (void)testExample {
+- (void)testgetVideosList {
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"asynchronous request"];
     
@@ -77,7 +77,7 @@ float angleBetweenLines(const CGPoint line1Start, const CGPoint line1End, const 
             }
             else
             {
-                XCTAssert(NO, @"Pass");
+                XCTAssert(NO, @"Fail");
             }
             
             [expectation fulfill];

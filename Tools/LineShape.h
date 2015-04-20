@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Aqeel Rafiq. All rights reserved.
 //
 
-//model and the view what it looks like and the psotion of the objects
+//Used for the line shape as line shape has different methods to that of the circle square etc
 
 #import <UIKit/UIKit.h>
 #import "Shape.h"

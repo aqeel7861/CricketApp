@@ -7,7 +7,7 @@
 
 //libaries that are imported 
 
-#import <UIKit/UIKit.h> //why is this imported?
+#import <UIKit/UIKit.h> //UIKit needed
 #import <MediaPlayer/MediaPlayer.h> //this is the ios Media to get videos
 #import <MobileCoreServices/MobileCoreServices.h> //
 #import "InternetController.h" //to make an internet connection
@@ -27,9 +27,10 @@
 }
 
 
-@property (strong, nonatomic) NSURL *videoURL; //what does this do?
+@property (strong, nonatomic) NSURL *videoURL; //videoURL of the video
 @property (strong, nonatomic) MPMoviePlayerController *videoController;
 
+//the methods IBActions etc 
 -(IBAction)BackButton:(id)sender;
 -(IBAction)VideoProcessing1:(id)sender;
 -(IBAction)VideoProcessing2:(id)sender;

@@ -5,6 +5,7 @@
 //  Copyright (c) 2014 Aqeel Rafiq. All rights reserved.
 //
 
+//libarries that need to imported
 #import "MyVideosViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PalletVideoController.h"
@@ -29,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self->internetController = [[InternetController alloc] init]; //DOES THIS COPY IN ALL THE CONNECTION METHODS
+    self->internetController = [[InternetController alloc] init]; 
     
     //set background
     UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CarlGreenidge.jpg"]];
@@ -46,13 +47,15 @@
     [RecordVideo setBackgroundImage:[UIImage imageNamed:@"RB.png"] forState:UIControlStateNormal];
     [self.view addSubview:RecordVideo];
     
-    
+    //Edit a video using the Notation Interface. Notation interface also refered to as pallat
     
      UIButton * EV1 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
      EV1.frame=CGRectMake(60, 260, 200, 50);//positioning of the button
      [EV1 addTarget:self action:@selector(selectPalletVideo:)forControlEvents:UIControlEventTouchUpInside];
      [EV1 setBackgroundImage:[UIImage imageNamed:@"EV1.png"] forState:UIControlStateNormal];
      [self.view addSubview:EV1];
+    
+    //Edit a video using AI
     
     UIButton * EV2 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     EV2.frame=CGRectMake(60, 320, 200, 50);//positioning of the button
@@ -61,6 +64,7 @@
     [self.view addSubview:EV2];
     
     
+    //back button redirects the user to the start screen
     
     UIButton * Back =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     Back.frame=CGRectMake(230, 30, 60, 40);//positioning of the button
@@ -68,6 +72,7 @@
     [Back setBackgroundImage:[UIImage imageNamed:@"back button.png"] forState:UIControlStateNormal];
     [self.view addSubview:Back];
     
+    //current video loading state is nothing
     
     videoLoadingState = VideoLoading_Nothing;
 }
@@ -123,11 +128,15 @@
     NSString *tempFilename = [[self.videoURL absoluteString] lastPathComponent];
     currentUploadingData = [NSData dataWithContentsOfURL:self.videoURL];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Save Video" message:@"Name this video:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+   //UIAlert added important to tell the user what format to save the video in
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Save Video please add .mov at the end of each video" message:@"Name this video:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
     
+    //the picker is then dismissed
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
     
 
 }
@@ -154,7 +163,7 @@
 
 
 
-//table stuff EDITING VIDEO
+//table stuff for showing the videos in a table
 
 #pragma mark - Table stuff
 -(void)displayDataInTableView:(NSString*)dataString
@@ -178,7 +187,7 @@
         NSString *filename = [strings objectAtIndex:i];
         if( filename != nil )
         {
-            // Filter .DS_STORE and any file that ends in ".shape"
+            // Filter .DS_STORE and any file that ends in ".shape" This time it shows the user all the videos to edit including the DRILLS video
             
             
             for(NSString *str in tableDataMyVideos)
@@ -230,8 +239,7 @@
     }
 }
 
-
-// What happens when a cell is pressed
+//table formatting
 -(void)tableView:(UITableView*)inTableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if( inTableView == table )
@@ -259,7 +267,7 @@
     return headerView;
 }
 
-
+//table formattting making it neat
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 40.0;
@@ -315,7 +323,7 @@
 
 //play videos
 
-
+//notation interface video to know what state it is in
 - (IBAction)selectPalletVideo:(UIButton *)sender {
     
     videoLoadingState = VideoLoading_Pallete;
@@ -336,7 +344,7 @@
 }
 
 
-
+//AI video
 
 - (IBAction)selectAIVideo:(UIButton *)sender {
     
@@ -364,7 +372,7 @@
 }
 
 
-//cache memore 
+//this is important as this saves the video to app memory if the video is already downloaded as a result if it reloaded then the video is fine.
 
 -(void)saveDownloadedVideo:(NSMutableData*)data filename:(NSString*)filename
 {
@@ -375,7 +383,7 @@
         bool success = false;
         @try
         {
-            success = [data writeToFile:fullPath atomically:true];
+            success = [data writeToFile:fullPath atomically:true]; ///the file is then written to app memory
         }
         @catch(NSException *e)
         {
@@ -387,7 +395,7 @@
         }
         else
         {
-            // Report error? Delete file and redownload?
+            //error debugging purposes NSLog(@'Error')
         }
     }
     else
@@ -396,6 +404,7 @@
     }
 }
 
+//this function displays the actual video in the notation interface class or the AI interface class the actual video using the storyboard identified
 
 -(void)PlayDownloadedVideo:(NSString*)filename
 {
@@ -403,7 +412,7 @@
     {
         UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        PalletVideoController *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"PalletVideo"];
+        PalletVideoController *storyboard = [MasterStoryboard  instantiateViewControllerWithIdentifier:@"PalletVideo"]; //storyboard identifier used here to display the video in the PalletVideoController Class
         
         [self presentViewController:storyboard animated:YES completion:NULL];
         
@@ -413,7 +422,7 @@
     {
         UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        AutoVideoEditing *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"AutoVideoEditing"];
+        AutoVideoEditing *storyboard = [MasterStoryboard instantiateViewControllerWithIdentifier:@"AutoVideoEditing"]; //storyboard identifier used here to display the video in the AutoVideoEditing class
         
         [self presentViewController:storyboard animated:YES completion:NULL];
         
@@ -421,6 +430,7 @@
     }
 }
 
+//the IBAction for back button
 
 -(IBAction)BackButton:(id)sender;
 

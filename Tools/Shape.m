@@ -7,7 +7,7 @@
 //
 
 
-//what is the point of this class ask?
+//used to create the shapes of this ap
 
 #import "Shape.h"
 
@@ -24,16 +24,16 @@
     self->type = inType;
     if( [type isEqualToString:@"circle"] )
     {
-        UIImageView *linetool = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,50,50)];
-        linetool.image = [UIImage imageNamed:@"circle.gif"];
+        UIImageView *linetool = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,50,50)]; //size 50,50
+        linetool.image = [UIImage imageNamed:@"circle.gif"]; //shapes image found in resources folder
         linetool.alpha=1.5;
         [self addSubview:linetool];
     }
-    else if( [type isEqualToString:@"square"] )
+    else if( [type isEqualToString:@"square"] ) //square shape will take the color yellos
     {
         self.backgroundColor = [UIColor yellowColor];
     }
-    else if( [type isEqualToString:@"line"] )
+    else if( [type isEqualToString:@"line"] ) //used for the line shape
     {
     }
     
@@ -47,7 +47,7 @@
 
 -(void)remove
 {
-    [self removeFromSuperview];
+    [self removeFromSuperview]; //used for eraser tool
 }
 
 
@@ -55,7 +55,7 @@
 {
     CGRect frame = self.frame;
     [output appendData:[[NSString stringWithFormat:@"%@,%f,%f,%f,%f\n",type,frame.origin.x, frame.origin.y, frame.size.width, frame.size.height] dataUsingEncoding:NSUTF8StringEncoding]];
-}
+}//used to save the shapes button avaliable in app
 
 @end
 

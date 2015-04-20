@@ -16,7 +16,7 @@
 @interface AutoVideoEditing : PalletVideoController
 
 {
-    
+    //used for the AI
     UIImageView * redlight;
     UIImageView * amberlight;
     UIImageView * greenlight;

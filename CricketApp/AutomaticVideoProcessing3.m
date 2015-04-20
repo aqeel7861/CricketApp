@@ -30,8 +30,8 @@
     
     //text to be displayed below video describing the video
     
-//    UIImageView * header =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HipToLip.png"]];
-    UIImageView * header =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"circle.gif"]];
+  UIImageView * header =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HipToLip.png"]];
+   // UIImageView * header =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"circle.gif"]];
     header.frame=CGRectMake(50,350,220,100);
     [self.view addSubview:header];
     

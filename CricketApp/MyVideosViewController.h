@@ -4,7 +4,7 @@
 //
 //  Created by Aqeel Rafiq on 03/11/2014.
 //  Copyright (c) 2014 Aqeel Rafiq. All rights reserved.
-//
+// This class was used for the my videos in this file variable and method declarations are declared
 
 #import "PalletVideoController.h"
 #import <UIKit/UIKit.h> //internet 
@@ -14,7 +14,7 @@
 
 @interface MyVideosViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 {
-    InternetController *internetController;
+    InternetController *internetController; //used for methods in internet controller see report
     NSData *currentUploadingData;
     
 
@@ -30,6 +30,8 @@
     //for grouped table
     InternetController * internetControllerMyvideos;
     
+    //video loading state used for debugging purposes to keep track of state
+    
     enum VideoLoadingState
     {
         VideoLoading_Nothing,
@@ -43,7 +45,7 @@
 
 @property (strong, nonatomic) NSURL *videoURL;
 
-
+//actions and methods for buttons and videos 
 
 -(IBAction)captureVideo:(id)sender;
 -(IBAction)BackButton:(id)sender;

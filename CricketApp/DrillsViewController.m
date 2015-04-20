@@ -15,7 +15,7 @@
 
 @implementation DrillsViewController
 
-//explain this
+//Used to get the videos list and display it in table NOTICE CALLBACK FUNCTION IN AFFECT HERE getVideosList AND NOTICE WHOLE METHOD IS NOT COPIED!!!!!!
 
 - (IBAction)getVideo:(UIButton *)sender {
     
@@ -29,8 +29,7 @@
     }];
 }
 
-//explain this
-
+//This is used to play the video AGAIN NOTICE CALLBACK FUNCTION IN USE HERE downloadVideoFROMSERVER the whole method is not copied
 
 -(void)playVideo:(NSString*)filename
 {
@@ -50,8 +49,7 @@
     }
 }
 
-
-//does this work? No IBACTION to this 
+//option to save the downloaded video AGAIN THIS METHOD IS IF THE video already downloaded saves it to app memeor look at myvideos class where code has been commmented
 -(void)saveDownloadedVideo:(NSMutableData*)data filename:(NSString*)filename
 {
     if( filename != nil && data != nil )
@@ -83,6 +81,7 @@
 }
 
 
+//play downloaded video allows me to play the downlaoadedvideo from the app memory or file server
 -(void)PlayDownloadedVideo:(NSString*)filename
 {
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -93,7 +92,7 @@
     MPMoviePlayerViewController *mpc = [[MPMoviePlayerViewController alloc]initWithContentURL:url];
     [mpc.moviePlayer setMovieSourceType:MPMovieSourceTypeFile];
     
-    [mpc.view setFrame:CGRectMake(10,10,100,100)];
+    [mpc.view setFrame:CGRectMake(10,10,100,100)]; //sets the dimensions of the movieplayer 10,10 (x,y)
     
     [mpc.moviePlayer setFullscreen:YES];
     [mpc.moviePlayer play];
@@ -107,9 +106,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //internet controller class instance declared below
     
     self->internetController = [[InternetController alloc] init];
-    
+    //sets background
     
     UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CarlGreenidge.jpg"]];
     background.frame = self.view.bounds;
@@ -117,15 +117,16 @@
     
     
  
+    //butttons
     
-    
-    
+    //select drill
     UIButton * selectDrill =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     selectDrill.frame=CGRectMake(60, 200, 200, 50);//positioning of the button
     [selectDrill addTarget:self action:@selector(getVideo:)forControlEvents:UIControlEventTouchUpInside];
     [selectDrill setBackgroundImage:[UIImage imageNamed:@"Selectadrill.png"] forState:UIControlStateNormal];
     [self.view addSubview:selectDrill];
-    
+
+    //videoprocessing 1 button
     
     UIButton * VP1 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     VP1.frame=CGRectMake(60, 260, 200, 50);//positioning of the button
@@ -133,11 +134,15 @@
     [VP1 setBackgroundImage:[UIImage imageNamed:@"VP1.png"] forState:UIControlStateNormal];
     [self.view addSubview:VP1];
     
+    //videoprocessing 2 button
+    
     UIButton * VP2 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     VP2.frame=CGRectMake(60, 320, 200, 50);//positioning of the button
     [VP2 addTarget:self action:@selector(VideoProcessing2:)forControlEvents:UIControlEventTouchUpInside];
     [VP2 setBackgroundImage:[UIImage imageNamed:@"VP2.png"] forState:UIControlStateNormal];
     [self.view addSubview:VP2];
+    
+    //videoprocessing3 button
     
     UIButton * VP3 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     VP3.frame=CGRectMake(60, 380, 200, 50);//positioning of the button
@@ -145,12 +150,15 @@
     [VP3 setBackgroundImage:[UIImage imageNamed:@"VP3.png"] forState:UIControlStateNormal];
     [self.view addSubview:VP3];
     
+    //videoprocessing4button
+    
     UIButton * VP4 =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     VP4.frame=CGRectMake(60, 440, 200, 50);//positioning of the button
     [VP4 addTarget:self action:@selector(VideoProcessing4:)forControlEvents:UIControlEventTouchUpInside];
     [VP4 setBackgroundImage:[UIImage imageNamed:@"VP4.png"] forState:UIControlStateNormal];
     [self.view addSubview:VP4];
     
+    //backbutoon
     
     UIButton * Back =[UIButton buttonWithType:UIButtonTypeCustom];//button type custom
     Back.frame=CGRectMake(230, 30, 60, 40);//positioning of the button
@@ -167,7 +175,7 @@
 
 
 
-
+//this is the action used to display the stotryboard and refers to identifier
 
 -(IBAction)VideoProcessing1:(id)sender;
 
@@ -181,7 +189,7 @@
 }
 
 
-
+//videoprocessing2 action used to display storyboard
 -(IBAction)VideoProcessing2:(id)sender;
 
 {
@@ -193,6 +201,9 @@
     
 }
 
+//videoprocessing3 action used to display storyboard need to pass VideoProcessing3 up top where buttons made
+
+
 -(IBAction)VideoProcessing3:(id)sender;
 
 {
@@ -203,6 +214,8 @@
     
     
 }
+
+//videoprocessing4 used to display the button again
 
 
 -(IBAction)VideoProcessing4:(id)sender;
@@ -259,6 +272,8 @@
  */
 
 
+//table stuff refer to myvideos class
+
 
 #pragma mark - Table stuff
 -(void)displayDataInTableView:(NSString*)dataString
@@ -298,6 +313,9 @@
                     [tableData removeObject:str];
                     
                 }
+                
+                //VERY IMPORTNAT THIS MAKES SURES ONLY DIRLLS ARE DISPLAYED ALL THE VIDEOS ARE SAVED IN THE SAME LOCATION THIS LINE OF CODE ENSURES THAT ONLY THE DRILLS ARE DISPLAYED
+                
                 else if( ![str hasPrefix:@"DRILL_"] )
                 {
                     [tableData removeObject:str];

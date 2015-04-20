@@ -19,7 +19,7 @@
 
 -(IBAction)Drills:(id)sender; //these are actions which are then assigned to the buttons 
 -(IBAction)MyVideos:(id)sender;
-
+-(IBAction)Tutorial:(id)sender;
 
 
 

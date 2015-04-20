@@ -148,14 +148,16 @@
     float cosAngle = cosf( rotationInRadians );
     float sinAngle = sinf( rotationInRadians );
     
+    //new postiin of line
+    
     CGPoint newPosition = movement;
-    newPosition.x = ( x * cosAngle ) - ( y * sinAngle );
+    newPosition.x = ( x * cosAngle ) - ( y * sinAngle ); //mutliples the x and y by the sinangle and cosangle
     newPosition.y = ( x * sinAngle ) + ( y * cosAngle );
     
     newPosition.x += from.x;
     newPosition.y += from.y;
     
-    return newPosition;
+    return newPosition; //rerunts the postuons
 };
 
 
@@ -214,7 +216,7 @@
         [self.view addSubview:line];
         [lines addObject:line];
         
-        CGPoint newPosition = [self findPositionForAngle:startPoint movement:CGPointMake( 0.0,-100.0 ) rotation:20.0];
+        CGPoint newPosition = [self findPositionForAngle:startPoint movement:CGPointMake( 0.0,-100.0 ) rotation:20.0]; //the rotaint of the line using the findpostionforangel rotationmatrix
         [line addPoint:newPosition];
     }
 

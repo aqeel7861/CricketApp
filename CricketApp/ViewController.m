@@ -53,8 +53,16 @@
     UIViewController * MyVideosStoryboard= [MasterStoryboard instantiateViewControllerWithIdentifier:@"MyVideos"];
     [self presentViewController:MyVideosStoryboard animated:YES completion:nil];
 }
+//
+
+-(IBAction)Tutorial:(id)sender;
 
 
+{
+    UIStoryboard * MasterStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; //this is the main storyboard the first storyboard that loads
+    UIViewController * MyVideosStoryboard= [MasterStoryboard instantiateViewControllerWithIdentifier:@"TutorialofApp"];
+    [self presentViewController:MyVideosStoryboard animated:YES completion:nil];
+}
 
 
 
@@ -86,6 +94,12 @@
     [Drills setBackgroundImage:[UIImage imageNamed:@"D.png"] forState:UIControlStateNormal];
     [self.view addSubview:Drills]; //then add it as a subview
     
+    
+    UIButton * tutorial =[UIButton buttonWithType:UIButtonTypeCustom];//creates the Drills button
+    tutorial.frame=CGRectMake(60, 370, 200, 50);// The button is then added to the app with coordinates
+    [tutorial addTarget:self action:@selector(Tutorial:)forControlEvents:UIControlEventTouchUpInside];
+    [tutorial setBackgroundImage:[UIImage imageNamed:@"Tutorial.png"] forState:UIControlStateNormal];
+    [self.view addSubview:tutorial]; //then add it as a subview
     
     
 }

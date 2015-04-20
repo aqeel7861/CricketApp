@@ -10,6 +10,7 @@
 #import <MediaPlayer/MediaPlayer.h> //import the media player into the new view controller2 class
 #import "InternetController.h"
 
+//notation interface
 
 
 @interface PalletVideoController : UIViewController
@@ -33,6 +34,8 @@
     //background for pallet
     
     
+    //imageviews used for buttons
+    
     UIImageView *facebook;
     UIImageView *screenshot;
     UIImageView *twitter;
@@ -52,7 +55,6 @@
     
     
     
-    UITextField* comments;
     
     
     UIView *selectedShape;
@@ -67,7 +69,7 @@
 -(void)SaveDownloadedVideo;
 
 
-
+//IBACTION BUTTONS 
 
 -(IBAction)PosttoTwitter:(id)sender;
 -(IBAction)postToFacebook:(id)sender;
